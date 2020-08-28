@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+    db:
+        image: postgres:12.0-alpine
+        expose:
+            - 5432
+        ports:
+          - "127.0.0.1:5432:5432"
+        volumes:
+            - ./var/postgres:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: car
+            TZ: "Europe/Paris"
+
+    node:
+        image: node:11
+        user: "node"
+        volumes:
+            - .:/var/www/site
+        working_dir: /var/www/site
+        ports:
+          - "127.0.0.1:8080:8080"
+        # Others commands :
+        # yarn install // Install assets
+        # yarn encore dev --watch // Watch and compile assets
+        # yarn encore dev-server --host 0.0.0.0 --port 8080 --disable-host-check // Watch and compile assets + Hot reload
+        command: "bash -c \"yarn install && yarn encore dev --watch\""

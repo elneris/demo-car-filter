@@ -1,0 +1,3 @@
+index:
+    path: /car
+    controller: App\Controller\CarController::index
